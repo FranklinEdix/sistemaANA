@@ -5,6 +5,9 @@ require "../conexiondb/consultas.php";
 $c = new consultas($conexion);
 $b = false;
 if(isset($_GET['id'])){
+    session_start();
+    ob_start();
+    $_SESSION['idProducto'] = $_GET['id'];
     $cantidadDeposito = $c -> contarPedido('deposito',$_GET['id']);
     $cantidadEmtregado = $c -> contarPedido('pedidoentregado',$_GET['id']);
     if($cantidadDeposito > 0 || $cantidadEmtregado > 0){
@@ -51,7 +54,7 @@ if(isset($_GET['id'])){
           const result = JSON.parse(objajx.responseText);
           console.log(result);  
         }
-        alert("hola");
+        
         document.location.reload("formato.php");
       }
       }
@@ -99,13 +102,12 @@ if(isset($_GET['id'])){
         <br>
         <br>
         <a type="submit" href="" name=""><button type="button" class="btn btn-success" onclick="Mostrar(event);">Guardar</button></a>
-        <a type="submit" href="" name=""><button type="button" class="btn btn-danger">Cancelar</button></a>
         <a type="submit" href="" name=""><button type="button" class="btn btn-secondary">Deposito</button></a>
     </form>
 </center>
 </body>
 </html>
 <script src="https://code.jquery.com/jquery.js"></script>
-<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

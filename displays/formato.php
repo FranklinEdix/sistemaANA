@@ -216,8 +216,39 @@
               <h4>Administracion de Formatos de Apertura</h4>
             </div>
             <div class="col-12 displayFirst__formato-menu">
-              
-                <div class="row">
+            <table>
+              <thead>
+                <tr>
+                  <th>Filtrar Producto</th>
+                  <th>Desde:</th>
+                  <th>Hasta:</th>
+                  <th>Nro.Formato</th>
+                  <th>Nro.Pedido</th>
+                </tr>
+              </thead>
+              <tbody>
+              <tr>
+                  <td><input type="text" id="producto"/></td>
+                  <td><input
+                      type="date"
+                      placeholder="" name="FechaInferior"
+                      id="FechaInferior"
+                      onchange="Comparacion(event)"
+                    /></td>
+                  <td><input
+                      type="date"
+                      placeholder=""
+                      name="FechaSuperior"
+                      id="FechaSuperior"
+                      onchange="Comparacion(event)"
+                    /></td>
+                  <td><input type="text" name="NroFormato" id="NroFormato"/></td>
+                  <td><input type="text" name="NroPedido" id="NroPedido"/></td>
+                  <td><a href="formato.php"><button class="btn btn-secondary" name="buscar" onclick="handleinput(event);">Buscar Oper.</button></a></td>
+                </tr>
+              </tbody>
+            </table>
+                <!--<div class="row">
                   <div class="col-2 displayFirst__formato-items">
                     <span>Filtrar Producto</span>
                     <input type="text" id="producto"/>
@@ -244,8 +275,8 @@
                     />
                   </div>
                   <div class="col-2 displayFirst__formato-items">
-                    <!--<button></button>
-                    <button></button>-->
+                    <button></button>
+                    <button></button>
                     <a href="formato.php"><button class="btn btn-secondary" name="buscar" onclick="handleinput(event);">Buscar Oper.</button></a>
                   </div>
                   <div class="col-2 displayFirst__formato-items">
@@ -256,7 +287,7 @@
                     <span>Nro. de Pedido</span>
                     <input type="text" name="NroPedido" id="NroPedido"/>
                   </div>
-                </div>
+                </div>-->
               
               <div class="row displayFirst__formato-table">
                 <div class="col-10">
@@ -323,7 +354,7 @@
                           
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <a type="submit" href="" name=""><button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button></a>
                         </div>
                       </div>
                     </div>
@@ -350,7 +381,7 @@
                           ?>
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <a type="submit" href="" name=""><button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button></a>
                         </div>
                       </div>
                     </div>
@@ -361,12 +392,12 @@
                   <button class="btn btn-danger displayFirst__formato-boton">
                     Recojos
                   </button>
-                  <button
+                  <!--<button
                     style="position: absolute; bottom: 0px; right: 0px"
                     class="btn btn-danger displayFirst__formato-boton"
                   >
                     Salir
-                  </button>
+                  </button>-->
                 </div>
               </div>
             </div>
@@ -377,5 +408,6 @@
   </body>
 </html>
 <script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

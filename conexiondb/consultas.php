@@ -65,8 +65,8 @@
                 return -1;
             } 
         }
-        function modificarPedido($IdPedido,$IdProducto,$IdDistribuidora,$IdEmpleado,$Cantidad,$CostoPedido,$FechaPedido,$Formato){
-            $sql = "UPDATE pedido SET(IdPedido='$IdPedido',IdProducto=''$IdProducto,IdDistribuidora='$IdDistribuidora',IdEmpleado='$IdEmpleado',Cantidad='$Cantidad',CostoPedido='$CostoPedido',FechaPedido='$FechaPedido',CantidadRestante='$Cantidad',MontoRestante='$CostoPedido',Formato='$Formato')";
+        function modificarPedido($IdPedido,$IdProducto,$IdDistribuidora,$IdEmpleado,$Cantidad,$CostoPedido,$FechaPedido,$Formato,$id){
+            $sql = "UPDATE pedido SET IdPedido='$IdPedido',IdProducto='$IdProducto',IdDistribuidora='$IdDistribuidora',IdEmpleado='$IdEmpleado',Cantidad='$Cantidad',CostoPedido='$CostoPedido',FechaPedido='$FechaPedido',CantidadRestante='$Cantidad',MontoRestante='$CostoPedido',Formato='$Formato' WHERE IdPedido = '$id'";
             $result = mysqli_query($this -> conexion, $sql);
         }
     }

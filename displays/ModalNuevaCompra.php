@@ -82,7 +82,7 @@
         <br>
         <br>
         <a type="submit" href="" name=""><button type="button" class="btn btn-success" onclick="Mostrar(event);">Guardar</button></a>
-        <a type="submit" href="" name=""><button type="button" class="btn btn-danger">Cancelar</button></a>
+        
         <a type="submit" href="" name=""><button type="button" class="btn btn-secondary">Deposito</button></a>
     </form>
 </center>
