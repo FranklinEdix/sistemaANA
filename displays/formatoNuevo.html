@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sistema Informacion</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://kit.fontawesome.com/f86beaa1ec.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      .displayFirst {
+        min-height: 100vh;
+      }
+      .displayFirst__menu {
+        background-color: #122f3b;
+        height: 100%;
+      }
+      .displayFirst__logo {
+        width: 100%;
+        border-radius: 58px;
+        margin-top: 1em;
+      }
+      .displayFirst__link {
+        color: white;
+        text-decoration: none;
+        text-align: center;
+        width: 100%;
+        padding: 1em;
+      }
+      .displayFirst__link:hover {
+        color: white;
+        text-decoration: none;
+        background-color: #0bacdf;
+        border-radius: 1em;
+      }
+      .displayFirst__area {
+        background-color: #f2f2f2;
+      }
+      .displayFirst__area-header {
+        padding: 0.5em;
+        box-shadow: 5px 5px 5px gray;
+      }
+      .displayFirst__area-usuario {
+        width: 50px;
+      }
+      .displayFirst__area-span {
+        line-height: 50px;
+      }
+      .display_First__icon {
+        width: 100%;
+      }
+      .ordenes__main {
+        margin-top: 2em;
+          margin-bottom: 1em;
+      }
+      .displayFirst__ordenes-titulo {
+        margin-top: 2em;
+        background-color: white;
+        border-radius: 1em;
+        padding: 0.5em;
+        color: gray;
+        text-align: center;
+      }
+      .displayFirst__ordenes-input {
+      }
+      .displayFirst__producto-input {
+        margin: 0 1em;
+      }
+      .ordenes__pedido {
+        text-align: center;
+          margin:2em 0;
+      }
+      .ordenes__botones{
+        display:flex;
+          justify-content:space-around;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row displayFirst">
+        <div class="col-2">
+          <div class="row displayFirst__menu">
+            <div class="col-12">
+              <img
+                class="displayFirst__logo"
+                src="https://ciaologo.com/timthumb.php?src=upload/379/654/0_orig_20131029041040_1a328d9dd5.png&h=250&w=400&zc=2&b=15"
+                alt=""
+              />
+              <div class="displayFirst__navbar">
+                <nav class="navbar">
+                  <a class="displayFirst__link" href=""
+                    ><i class="fas fa-clipboard display_First__icon"></i
+                    >Formatos de Apertura</a
+                  >
+                  <a class="displayFirst__link display_First__icon" href=""
+                    ><i class="fas fa-box-open display_First__icon"></i>Ordenes
+                    de Recojo</a
+                  >
+                  <a class="displayFirst__link" href=""
+                    ><i class="fas fa-calendar-alt display_First__icon"></i
+                    >Programación</a
+                  >
+                  <a class="displayFirst__link" href=""
+                    ><i class="fas fa-pencil-alt display_First__icon"></i
+                    >Pendientes</a
+                  >
+                  <a class="displayFirst__link" href=""
+                    ><i class="fas fa-project-diagram display_First__icon"></i
+                    >Procesos</a
+                  >
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-10 displayFirst__area">
+          <div class="row displayFirst__area-header">
+            <div class="col-12"></div>
+            <div class="col-4">
+              <span class="displayFirst__area-span">Dashboard</span>
+            </div>
+            <div class="col-auto ml-auto">
+              <span class="displayFirst__area-span">Michel Alexis</span>
+            </div>
+            <div class="col-auto">
+              <img
+                class="displayFirst__area-usuario"
+                src="https://rciminternet.com/wp-content/uploads/2019/04/usuario.png"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="row displayFist__ordenes">
+            <div class="col-10 ml-auto mr-auto displayFirst__ordenes-titulo">
+              <h4>Nueva Compra</h4>
+            </div>
+            <div class="col-12 ordenes__main">
+              <div class="row displayFirst__ordenes-newOrder">
+                <div class="col-4 ml-auto mr-auto">
+                  <label>Compra</label
+                  ><input class="displayFirst__ordenes-input" type="text" />
+                </div>
+                <div class="col-4 ml-auto mr-auto">
+                  <label>Fecha</label
+                  ><input style="width:100%" class="displayFirst__ordenes-input" type="date" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4 offset-1">
+                  <label>Formato</label
+                  ><input class="displayFirst__ordenes-input" type="text" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-1 col-4">
+                  <label>Cantidad</label
+                  ><input class="displayFirst__ordenes-input" type="text" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-10 ml-auto mr-auto">
+                  <label style="width: 100%">Producto</label
+                  ><input
+class="displayFirst__ordenes-input"
+                    style="margin-right:1em; "
+                    type="text"
+                  /><button class="btn btn-secondary">...</button><input type="text" class="displayFirst__producto-input"/>
+                </div>
+              </div>
+              <div class="row ">
+                <div class="col-8 mr-auto ml-auto ordenes__pedido">
+                  <h5>Nro de Pedido - Cemento Andino</h5>
+                  <input type="text" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-5 ml-auto mr-auto ordenes__botones">
+                  <button class="btn btn-success" >Guardar</button><button class="btn btn-danger">Cancelar</button>
+                </div>
+                <div class="col-5 ml-auto mr-auto ordenes__botones">
+                  <button disabled class="btn btn-danger">Salir</button><button disabled class="btn btn-info">Depositos</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,264 @@
+<?php
+require "../conexiondb/conexion.php";
+require "../conexiondb/consultas.php";
+$c = new consultas($conexion);
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sistema Informacion</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <script type="application/javascript">
+      function handleSubmit(event) {
+        event.preventDefault();
+      }
+    </script>
+    <style>
+      .displayFirst {
+        min-height: 100vh;
+      }
+
+      .displayFirst__menu {
+        background-color: #122f3b;
+        height: 100%;
+      }
+
+      .displayFirst__logo {
+        width: 100%;
+        border-radius: 58px;
+        margin-top: 1em;
+      }
+
+      .displayFirst__link {
+        color: white;
+        text-decoration: none;
+        text-align: center;
+        width: 100%;
+        padding: 1em;
+      }
+
+      .displayFirst__link:hover {
+        color: white;
+        text-decoration: none;
+        background-color: #0bacdf;
+        border-radius: 1em;
+      }
+
+      .displayFirst__area {
+        background-color: #f2f2f2;
+      }
+
+      .displayFirst__area-header {
+        padding: 0.5em;
+        box-shadow: 5px 5px 5px gray;
+      }
+
+      .displayFirst__area-usuario {
+        width: 50px;
+      }
+
+      .displayFirst__area-span {
+        line-height: 50px;
+      }
+
+      .display_First__icon {
+        width: 100%;
+      }
+
+      /*Estilo Formato*/
+      .displayFirst__formato-titulo {
+        margin-top: 2em;
+        background-color: white;
+        border-radius: 1em;
+        padding: 0.5em;
+        color: gray;
+        text-align: center;
+      }
+
+      .displayFirst__formato-menu {
+        margin-top: 2em;
+        border-radius: 1em;
+        background-color: white;
+        padding: 1em 0.5em;
+      }
+
+      .displayFirst__formato-items {
+        font-size: 0.8em;
+      }
+
+      .displayFirst__formato-items input {
+        width: 80%;
+        color: gray;
+      }
+
+      .displayFirst__formato-table {
+        margin-top: 2em;
+      }
+
+      .displayFirst__formato-boton {
+        width: 70%;
+        margin: 0.5em 15%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row displayFirst">
+        <div class="col-2">
+          <div class="row displayFirst__menu">
+            <div class="col-12">
+              <img
+                class="displayFirst__logo"
+                src="https://ciaologo.com/timthumb.php?src=upload/379/654/0_orig_20131029041040_1a328d9dd5.png&h=250&w=400&zc=2&b=15"
+                alt=""
+              />
+              <div class="displayFirst__navbar">
+                <nav class="navbar">
+                  <a class="displayFirst__link" href=""
+                    ><i class="fas fa-clipboard display_First__icon"></i
+                    >Formatos de Apertura</a
+                  >
+                  <a class="displayFirst__link display_First__icon" href=""
+                    ><i class="fas fa-box-open display_First__icon"></i>Ordenes
+                    de Recojo</a
+                  >
+                  <a class="displayFirst__link" href=""
+                    ><i class="fas fa-calendar-alt display_First__icon"></i
+                    >Programación</a
+                  >
+                  <a class="displayFirst__link" href=""
+                    ><i class="fas fa-pencil-alt display_First__icon"></i
+                    >Pendientes</a
+                  >
+                  <a class="displayFirst__link" href=""
+                    ><i class="fas fa-project-diagram display_First__icon"></i
+                    >Procesos</a
+                  >
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-10 displayFirst__area">
+          <div class="row displayFirst__area-header">
+            <div class="col-12"></div>
+            <div class="col-4">
+              <span class="displayFirst__area-span">Dashboard</span>
+            </div>
+            <div class="col-auto ml-auto">
+              <span class="displayFirst__area-span">Michel Alexis</span>
+            </div>
+            <div class="col-auto">
+              <img
+                class="displayFirst__area-usuario"
+                src="https://rciminternet.com/wp-content/uploads/2019/04/usuario.png"
+                alt=""
+              />
+            </div>
+          </div>
+          <!-- Desde aqui empiezan los frames -->
+          <div class="row displayFirst__formato">
+            <div class="col-10 ml-auto mr-auto displayFirst__formato-titulo">
+              <h4>Administracion de Formatos de Apertura</h4>
+            </div>
+            <div class="col-12 displayFirst__formato-menu">
+              <form action="" onsubmit="handleSubmit(event)">
+                <div class="row">
+                  <div class="col-2 displayFirst__formato-items">
+                    <span>Filtrar Producto</span><input type="text" />
+                  </div>
+                  <div class="col-2 displayFirst__formato-items">
+                    <span>Desde:</span
+                    ><input
+                      style="padding: 0.3em 0"
+                      type="date"
+                      placeholder=""
+                    />
+                  </div>
+                  <div class="col-2 displayFirst__formato-items">
+                    <span>Hasta:</span
+                    ><input
+                      style="padding: 0.3em 0"
+                      type="date"
+                      placeholder=""
+                    />
+                  </div>
+                  <div class="col-2 displayFirst__formato-items">
+                    <button></button>
+                    <button></button>
+                    <button class="btn btn-secondary">Buscar Oper.</button>
+                  </div>
+                  <div class="col-2 displayFirst__formato-items">
+                    <span>Nro. de Formato</span><input type="text" />
+                  </div>
+                  <div class="col-2 displayFirst__formato-items">
+                    <span>Nro. de Pedido</span><input type="text" />
+                  </div>
+                </div>
+              </form>
+              <div class="row displayFirst__formato-table">
+                <div class="col-10">
+                  <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Formato</th>
+                        <th scope="col">Pedido</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Saldo</th>
+                        <th scope="col">Responsable</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <?php
+
+                    ?>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-2">
+                  <span>Compras</span>
+                  <button class="btn btn-success displayFirst__formato-boton">
+                    Nuevo
+                  </button>
+                  <button class="btn btn-primary displayFirst__formato-boton">
+                    Modificar
+                  </button>
+                  <button class="btn btn-dark displayFirst__formato-boton">
+                    Imprimir
+                  </button>
+                  <button class="btn btn-danger displayFirst__formato-boton">
+                    Recojos
+                  </button>
+                  <button
+                    style="position: absolute; bottom: 0px; right: 0px"
+                    class="btn btn-danger displayFirst__formato-boton"
+                  >
+                    Salir
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

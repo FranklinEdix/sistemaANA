@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <style>
+      .main {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-image: url ();
+      }
+      .main__fondo {
+        position: absolute;
+        width: 100%;
+        filter: blur(5px);
+        height: 100vh;
+      }
+      .login__logo {
+        width: 100%;
+      }
+      .login input {
+        margin: 0.5em auto;
+        border-radius: 10px;
+        border: none;
+        padding: 3px;
+        width: 100%;
+        text-align: center;
+      }
+      .login button {
+        width: 100%;
+        background-color: #00628e;
+        border: none;
+        color: white;
+        padding: 0.5em 0;
+        margin-top: 1em;
+        border-radius: 1em;
+      }
+    </style>
+    <script type="application/javascript">
+      function handleSubmit(event) {
+        event.preventDefault();
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container-fluid main">
+      <img
+        class="main__fondo"
+        src="https://i.pinimg.com/originals/06/0e/f3/060ef38858863919cf4e44bc3000de79.jpg"
+        alt=""
+      />
+      <div class="row login">
+        <div class="col-6 ml-auto mr-auto">
+          <div class="row">
+            <div class="col-10 ml-auto mr-auto">
+              <img
+                class="login__logo"
+                src="https://ciaologo.com/timthumb.php?src=upload/379/654/0_orig_20131029041040_1a328d9dd5.png&h=250&w=400&zc=2&b=15"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <form action="" onsubmit="handleSubmit(event)">
+                <input type="text" name="USUARIO" placeholder="Usuario" />
+                <input
+                  type="password"
+                  name="CLAVE"
+                  placeholder="Clave"
+                /> <button>Ingresar</button> </a>
+              </form>
+              <a href="displays/formato.html"> <button>Ingresar</button> </a>
+            </div>
+          </div>
+          <div class="row"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
