@@ -6,6 +6,8 @@
     $result = mysqli_query($conexion,$sql);
     $row = mysqli_fetch_row($result);
     if($row){
+        ob_start();
+        $_SESSION['user'] = $usuario;    
         header("Location: displays/formato.php");
     }else{?>
     <h4> Datos incorrectos
@@ -13,6 +15,4 @@
       <?php
         include("login.html");
     }
-    echo $usuario.$contraseña;
-
 ?>

@@ -165,9 +165,9 @@ $c = new consultas($conexion);
                             alt="" />
                         <div class="displayFirst__navbar">
                             <nav class="navbar">
-                                <a class="displayFirst__link" href=""><i
+                                <a href="formato.php" class="displayFirst__link" href=""><i
                                         class="fas fa-clipboard display_First__icon"></i>Formatos de Apertura</a>
-                                <a href="OrdeneDeRecojo.php" class="displayFirst__link display_First__icon" href=""><i
+                                <a class="displayFirst__link display_First__icon" href=""><i
                                         class="fas fa-box-open display_First__icon"></i>Ordenes
                                     de Recojo</a>
                                 <a class="displayFirst__link" href=""><i
@@ -189,7 +189,7 @@ $c = new consultas($conexion);
                     </div>
                     <div class="col-auto ml-auto">
                         <span class="displayFirst__area-span"><?php ob_start();
-                                                  echo $c->nombreEmpleado($_SESSION['user']); ?></span>
+                                                                echo $c->nombreEmpleado($_SESSION['user']); ?></span>
                     </div>
                     <div class="col-auto">
                         <img class="displayFirst__area-usuario"
@@ -199,28 +199,21 @@ $c = new consultas($conexion);
                 <!-- Desde aqui empiezan los frames -->
                 <div class="row displayFirst__formato">
                     <div class="col-10 ml-auto mr-auto displayFirst__formato-titulo">
-                        <h4>Administracion de Formatos de Apertura</h4>
+                        <h4>Administracion de Oredenes de Recojo</h4>
                     </div>
                     <div class="col-12 displayFirst__formato-menu">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Filtrar Producto</th>
-                                    <th>Desde:</th>
-                                    <th>Hasta:</th>
-                                    <th>Nro.Formato</th>
-                                    <th>Nro.Pedido</th>
+                                    <th>Buscar Chofer:</th>
+                                    <th>Nro.de Orden</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td><input type="text" id="producto" /></td>
-                                    <td><input type="date" placeholder="" name="FechaInferior" id="FechaInferior"
-                                            onchange="Comparacion(event)" /></td>
-                                    <td><input type="date" placeholder="" name="FechaSuperior" id="FechaSuperior"
-                                            onchange="Comparacion(event)" /></td>
-                                    <td><input type="text" name="NroFormato" id="NroFormato" /></td>
-                                    <td><input type="text" name="NroPedido" id="NroPedido" /></td>
+                                    <td><input type="text" placeholder="" name="FechaInferior" id="FechaInferior"
+                                            onchange="" /></td>
                                     <td><a href="formato.php"><button class="btn btn-secondary" name="buscar"
                                                 onclick="handleinput(event);">Buscar Oper.</button></a></td>
                                 </tr>
@@ -231,38 +224,41 @@ $c = new consultas($conexion);
                                 <table class="table">
                                     <thead class="thead-dark">
                                         <tr>
+                                            <th scope="col">Orden</th>
                                             <th scope="col">Fecha</th>
-                                            <th scope="col">Formato</th>
-                                            <th scope="col">Pedido</th>
-                                            <th scope="col">Producto</th>
+                                            <th scope="col">Chofer</th>
+                                            <th scope="col">Fecha de Recojo</th>
                                             <th scope="col">Cantidad</th>
-                                            <th scope="col">Resto Pedido</th>
+                                            <th scope="col">Producto</th>
+                                            <th scope="col">Recogido</th>
                                             <th scope="col">Responsable</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                    $vector = $_SESSION['vector'];
-                    if (!is_null($vector)) {
-                      if (count($vector) == 0) {
-                        $vector = $c->formatoAperturaTotal();
-                        //echo '<h4>'.$vector.'</h4>';
-                      }
-                    } else {
-                      $vector = $c->formatoAperturaTotal();
-                    }
+                                        $vector = $_SESSION['vector'];
+                                        if (!is_null($vector)) {
+                                            if (count($vector) == 0) {
+                                                $vector = $c->mostrarOrdenesDeRecojo();
+                                                //echo '<h4>'.$vector.'</h4>';
+                                            }
+                                        } else {
+                                            $vector = $c->mostrarOrdenesDeRecojo();
+                                        }
 
-                    //echo '<h4>'.$vector.'</h4>';
-                    for ($i = 0; $i < count($vector); $i++) {
-                    ?>
+                                        //echo '<h4>'.$vector.'</h4>';
+                                        for ($i = 0; $i < count($vector); $i++) {
+                                        ?>
                                         <tr>
-                                            <td><?php echo $vector[$i][6]; ?></td>
-                                            <td><?php echo $vector[$i][9]; ?></td>
                                             <td><?php echo $vector[$i][0]; ?></td>
+                                            <td><?php echo $vector[$i][6]; ?></td>
                                             <td><?php echo $vector[$i][1]; ?></td>
-                                            <td><?php echo $vector[$i][4]; ?></td>
-                                            <td><?php echo $vector[$i][7]; ?></td>
                                             <td><?php echo $vector[$i][3]; ?></td>
+                                            <td><?php echo $vector[$i][2]; ?></td>
+                                            <td><?php echo $vector[$i][0]; ?></td>
+                                            <td><?php echo $vector[$i][4]; ?></td>
+                                            <td><?php echo $vector[$i][5]; ?></td>
+
                                             <td><a type="button" class="btn btn-primary" onclick="Descripcion(this)"
                                                     id="<?php echo $vector[$i][0]; ?>" data-toggle="modal"
                                                     data-target="#ModalEditar1"><i class="bi bi-pencil-square"></i></a>
@@ -272,7 +268,7 @@ $c = new consultas($conexion);
                                                         class="bi bi-cash"></i></a></td>
                                         </tr>
                                         <?php }
-                    $_SESSION['vector'] = null; ?>
+                                        $_SESSION['vector'] = null; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -351,8 +347,8 @@ $c = new consultas($conexion);
                                             </div>
                                             <div class="modal-body">
                                                 <?php
-                        include("ModalNuevaCompra.php");
-                        ?>
+                                                include("ModalNuevaCompra.php");
+                                                ?>
                                             </div>
                                             <div class="modal-footer">
                                                 <a type="submit" href="" name=""><button type="button"
