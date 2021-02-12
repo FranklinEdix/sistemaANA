@@ -1,11 +1,8 @@
 <?php
-
-ob_start();
-$nombre = $c->nombreEmpleado($_SESSION['user']);
 if (isset($_GET['id'])) {
-    $codigoPedido = $_GET['id'];
+} else {
+    echo '<h4>Error</h4>';
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,26 +25,24 @@ function creaObjetoAjax() {
     return obj;
 }
 
-function Mostrar(event) {
-
+function asignar(event) {
     //const producto = event.target.value;
-    let NroDeposito = document.getElementById('NroDeposito').value;
-    let Monto = document.getElementById('Monto').value;
-    let Banco = document.getElementById('Banco').value;
-    let NroVentanilla = document.getElementById('NroVentanilla').value;
-    let fecha = document.getElementById('Fecha').value;
-    let NumeroPedido = document.getElementById('NumeroPedido').value;
+    let OrdenAsignar = document.getElementById('OrdenAsignar').value;
+    let NroAsignacion = document.getElementById('NroAsignar').value;
+    let Pedido = document.getElementById('PedidoAsignar').value;
+    let CantidadSolicitada = document.getElementById('CantidadSolicitadaAsignar').value;
     let objajx = creaObjetoAjax();
-    const parametros = "&NroDeposito=" + NroDeposito + "&Monto=" + Monto + "&Banco=" + Banco + "&NroVentanilla=" +
-        NroVentanilla + "&fecha=" + fecha + "&NumeroPedido=" + NumeroPedido;
-    objajx.open("POST", "AgregarNuevoDeposito.php", true);
-
+    const parametros = "&OrdenAsignar=" + OrdenAsignar + "&NroAsignacion=" + NroAsignacion + "&Pedido=" +
+        Pedido + "&CantidadSolicitada=" + CantidadSolicitada;
+    alert(parametros);
+    objajx.open("POST", "asignarPedido.php", true);
     objajx.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     objajx.send(parametros);
     objajx.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             console.log(objajx.responseText);
             const result = JSON.parse(objajx.responseText);
+            alert(result);
         }
     }
 }
@@ -55,7 +50,7 @@ function Mostrar(event) {
 
 <body>
     <center>
-        <h1>Nuevo Deposito</h1>
+        <h1>Asignar Pedido</h1>
         <form action="">
             <table class="  ">
                 <thead>
@@ -66,45 +61,32 @@ function Mostrar(event) {
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row"><label for="">Nro Depósito: </label></th>
-                        <td><input type="text" class="" value="" name="Compra" id="NroDeposito">
-                        </td>
+                        <th scope="row"><label for="">Nro Asignación: </label></th>
+                        <td><input type="text" class="" value="" name="" id="NroAsignar"></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="">Monto: </label></th>
-                        <td><input type="numeric" class="" value="" name="Formato" id="Monto"></td>
+                        <th scope="row"><label for="">Pedido: </label></th>
+                        <td><input type="text" class="" value="PD01" name="" id="PedidoAsignar"></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="">Banco: </label></th>
-                        <td><input type="text" class="" value="" name="Producto" id="Banco"></td>
+                        <th scope="row"><label for="">Orden: </label></th>
+                        <td><input type="text" class="" value="<?php echo $_GET['id']; ?>" name="" id="OrdenAsignar"
+                                disabled></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="">Nro Ventanilla: </label></th>
-                        <td><input type="text" class="" value="" name="Fecha" id="NroVentanilla"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="">Encargado: </label></th>
-                        <td><input type="text" class="" value="<?php echo $nombre ?>" name="Fecha" id="empleado"
-                                disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="">Fecha: </label></th>
-                        <td><input type="date" class="" value="<?php date_default_timezone_set('America/Lima');
-                                                                $fecha = date('Y-m-d');
-                                                                echo $fecha; ?>" name="Fecha" id="Fecha"
-                                style="padding-left: 12px;"></td>
+                        <th scope="row"><label for="">Cantidad Solicitada: </label></th>
+                        <td><input type="numeric" class="" value="" name="" id="CantidadSolicitadaAsignar"></td>
                     </tr>
                 </tbody>
             </table>
-            <br>
+            <!--<br>
             <label for=""><b>Nro de pedido - Cemento Andino</b></label>
             <br>
-            <input type="numeric" class="" value="<?php echo $codigoPedido; ?>" name="" id="NumeroPedido" disabled>
-            <br>
+            <input type="numeric" class="" value="" name="NroPedido">
+            <br>-->
             <br>
             <a type="submit" href="" name=""><button type="button" class="btn btn-success"
-                    onclick="Mostrar(event)">Guardar</button></a>
+                    onclick="asignar(event);">Guardar</button></a>
 
             <!--<a type="submit" href="" name=""><button type="button" class="btn btn-secondary">Depósito</button></a>
     -->

@@ -38,22 +38,18 @@ $c = new consultas($conexion);
 
     function handleinput(event) {
         //const producto = event.target.value;
-        let producto = document.getElementById('producto').value;
-        let FechaInferior = document.getElementById('FechaInferior').value;
-        let FechaSuperior = document.getElementById('FechaSuperior').value;
-        let NroFormato = document.getElementById('NroFormato').value;
-        let NroPedido = document.getElementById('NroPedido').value;
+        let chofer = document.getElementById('chofer').value;
+        let NroDeOrden = document.getElementById('NroDeOrden').value;
         /*
-        const fechaInferior = event.target.value;
+        const NroDeOrden = event.target.value;
         const fechaPosterior = event.target.value;
         const fechaPosterior = event.target.value;
-        const producto = event.target.value;
+        const chofer = event.target.value;
         console.log(event.target.value);
         */
         let objajx = creaObjetoAjax();
-        const parametros = "&producto=" + producto + "&FechaInferior=" + FechaInferior + "&FechaSuperior=" +
-            FechaSuperior + "&NroFormato=" + NroFormato + "&NroPedido=" + NroPedido;
-        objajx.open("POST", "Controlador.php", true);
+        const parametros = "&chofer=" + chofer + "&NroDeOrden=" + NroDeOrden;
+        objajx.open("POST", "buscarOrden.php", true);
         objajx.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         objajx.send(parametros);
         objajx.onreadystatechange = function() {
@@ -185,7 +181,9 @@ $c = new consultas($conexion);
                 <div class="row displayFirst__area-header">
                     <div class="col-12"></div>
                     <div class="col-4">
-                        <span class="displayFirst__area-span">Dashboard</span>
+                        <span class="displayFirst__area-span"><a href="../login.html"><button class="btn btn-danger ">
+                                    Salir <i class="bi bi-box-arrow-right"></i>
+                                </button></a></span>
                     </div>
                     <div class="col-auto ml-auto">
                         <span class="displayFirst__area-span"><?php ob_start();
@@ -211,16 +209,26 @@ $c = new consultas($conexion);
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><input type="text" id="producto" /></td>
-                                    <td><input type="text" placeholder="" name="FechaInferior" id="FechaInferior"
+                                    <td><input type="text" id="chofer" /></td>
+                                    <td><input type="text" placeholder="" name="FechaInferior" id="NroDeOrden"
                                             onchange="" /></td>
-                                    <td><a href="formato.php"><button class="btn btn-secondary" name="buscar"
-                                                onclick="handleinput(event);">Buscar Oper.</button></a></td>
+                                    <td><a href="OrdeneDeRecojo.php"><button class="btn btn-secondary" name="buscar"
+                                                onclick="handleinput(event);" style="margin-right: 80px;">Buscar
+                                                Oper.</button></a></td>
+                                    <td><button type="button" class="btn btn-success" data-toggle="modal"
+                                            data-target="#exampleModal"
+                                            style="margin-right: 80px; padding: auto 80px auto 80px;">
+                                            Nuevo
+                                        </button></td>
+                                    <td><button class="btn btn-dark ">
+                                            Imprimir
+                                        </button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="row displayFirst__formato-table">
-                            <div class="col-10">
+                            <div class="col-12">
                                 <table class="table">
                                     <thead class="thead-dark">
                                         <tr>
@@ -229,14 +237,15 @@ $c = new consultas($conexion);
                                             <th scope="col">Chofer</th>
                                             <th scope="col">Fecha de Recojo</th>
                                             <th scope="col">Cantidad</th>
-                                            <th scope="col">Producto</th>
                                             <th scope="col">Recogido</th>
                                             <th scope="col">Responsable</th>
+                                            <th scope="col">Producto</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $vector = $_SESSION['vector'];
+
+                                        $vector = $_SESSION['vector_orden'];
                                         if (!is_null($vector)) {
                                             if (count($vector) == 0) {
                                                 $vector = $c->mostrarOrdenesDeRecojo();
@@ -255,17 +264,28 @@ $c = new consultas($conexion);
                                             <td><?php echo $vector[$i][1]; ?></td>
                                             <td><?php echo $vector[$i][3]; ?></td>
                                             <td><?php echo $vector[$i][2]; ?></td>
-                                            <td><?php echo $vector[$i][0]; ?></td>
                                             <td><?php echo $vector[$i][4]; ?></td>
                                             <td><?php echo $vector[$i][5]; ?></td>
+                                            <td><a type="button" class="btn btn-dark" onclick="Producto(this)"
+                                                    id="<?php echo $vector[$i][0]; ?>" data-toggle="modal"
+                                                    data-target="#ModalProducto"><i class="bi bi-cart-fill"
+                                                        style="color: #f2f2f2;"></i></a>
+                                            </td>
 
                                             <td><a type="button" class="btn btn-primary" onclick="Descripcion(this)"
                                                     id="<?php echo $vector[$i][0]; ?>" data-toggle="modal"
-                                                    data-target="#ModalEditar1"><i class="bi bi-pencil-square"></i></a>
+                                                    data-target="#ModalEditar"><i class="bi bi-pencil-square"
+                                                        style="color: #f2f2f2;"></i></a>
                                             </td>
+                                            <td><a onclick="asignarPedido(this)" type="button" class="btn btn-secondary"
+                                                    id="<?php echo $vector[$i][0]; ?>" data-toggle="modal"
+                                                    data-target="#ModalAsignar" style="color: #f2f2f2;"><i
+                                                        class="bi bi-truck"></i></a>
+                                            </td>
+                                            <!-- Bonton Imprimir -->
                                             <td><a href="ModalDeposito.php?id=<?php echo $vector[$i][0]; ?>"
-                                                    type="button" class="btn btn-secondary" onclick="Deposito(this)"><i
-                                                        class="bi bi-cash"></i></a></td>
+                                                    type="button" class="btn btn-success" onclick="Deposito(this)"><i
+                                                        class="bi bi-printer-fill"></i></a></td>
                                         </tr>
                                         <?php }
                                         $_SESSION['vector'] = null; ?>
@@ -275,8 +295,26 @@ $c = new consultas($conexion);
                             <script>
                             function Descripcion(elemento) {
                                 var codigo = elemento.id;
-                                $('.modal-body-1').load('ModalEditar.php?id=' + codigo, function() {
+                                $('.modal-body-1').load('ModalEditarOrden.php?id=' + codigo, function() {
                                     $('#ModalEditar').modal({
+                                        show: true
+                                    });
+                                });
+                            }
+
+                            function Producto(elemento) {
+                                var codigo = elemento.id;
+                                $('.modal-body-1').load('ModalProducto.php?id=' + codigo, function() {
+                                    $('#ModalProducto').modal({
+                                        show: true
+                                    });
+                                });
+                            }
+
+                            function asignarPedido(elemento) {
+                                var codigo = elemento.id;
+                                $('.modal-body').load('ModalAsignarOrden.php?id=' + codigo, function() {
+                                    $('#ModalAsignar').modal({
                                         show: true
                                     });
                                 });
@@ -289,6 +327,27 @@ $c = new consultas($conexion);
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body-1">
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a type="submit" href="" name=""><button type="button"
+                                                    class="btn btn-danger" data-dismiss="modal">Cancelar</button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Producto -->
+                            <div class="modal fade" id="ModalProducto" tabindex="-1"
+                                aria-labelledby="ModalProductoLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Productos</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -327,11 +386,7 @@ $c = new consultas($conexion);
                                 </div>
                             </div>
                             <div class="col-2">
-                                <span>Compras</span>
-                                <button type="button" class="btn btn-success displayFirst__formato-boton"
-                                    data-toggle="modal" data-target="#exampleModal">
-                                    Nuevo
-                                </button>
+
 
                                 <!-- Modal -->
                                 <div class="modal fade" id="exampleModal" tabindex="-1"
@@ -347,7 +402,7 @@ $c = new consultas($conexion);
                                             </div>
                                             <div class="modal-body">
                                                 <?php
-                                                include("ModalNuevaCompra.php");
+                                                include("ModalNuevaOrden.php");
                                                 ?>
                                             </div>
                                             <div class="modal-footer">
@@ -359,39 +414,28 @@ $c = new consultas($conexion);
                                     </div>
                                 </div>
                                 <!--Modal 1-->
-                                <div id="myModal1" class="modal modal-child" data-backdrop-limit="1" tabindex="-1"
-                                    role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-                                    data-modal-parent="#myModal">
+                                <div class="modal fade" id="ModalAsignar" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo</h5>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                ...
+
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                                <a type="submit" href="" name=""><button type="button"
+                                                        class="btn btn-danger"
+                                                        data-dismiss="modal">Cancelar</button></a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-dark displayFirst__formato-boton">
-                                    Imprimir
-                                </button>
-                                <button class="btn btn-danger displayFirst__formato-boton">
-                                    Recojos
-                                </button>
-                                <a href="../login.html"><button style="position: absolute; bottom: 0px; right: 0px"
-                                        class="btn btn-danger displayFirst__formato-boton">
-                                        Salir
-                                    </button></a>
                             </div>
                         </div>
                     </div>

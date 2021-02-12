@@ -166,9 +166,9 @@ $c = new consultas($conexion);
                             alt="" />
                         <div class="displayFirst__navbar">
                             <nav class="navbar">
-                                <a class="displayFirst__link" href=""><i
+                                <a class="displayFirst__link" href="formato.php"><i
                                         class="fas fa-clipboard display_First__icon"></i>Formatos de Apertura</a>
-                                <a class="displayFirst__link display_First__icon" href=""><i
+                                <a href="OrdeneDeRecojo.php" class="displayFirst__link display_First__icon"><i
                                         class="fas fa-box-open display_First__icon"></i>Ordenes
                                     de Recojo</a>
                                 <a class="displayFirst__link" href=""><i
@@ -190,7 +190,7 @@ $c = new consultas($conexion);
                     </div>
                     <div class="col-auto ml-auto">
                         <span class="displayFirst__area-span"><?php ob_start();
-                                                  echo $c->nombreEmpleado($_SESSION['user']); ?></span>
+                                                                echo $c->nombreEmpleado($_SESSION['user']); ?></span>
                     </div>
                     <div class="col-auto">
                         <img class="displayFirst__area-usuario"
@@ -242,11 +242,11 @@ $c = new consultas($conexion);
                                     </thead>
                                     <tbody>
                                         <?php
-                    $vector = $c->consultaDeposito($_GET['id']);
-                    if ($vector !== "Error" && $vector !== null) {
-                      //echo '<h4>'.$vector.'</h4>';
-                      for ($i = 0; $i < count($vector); $i++) {
-                    ?>
+                                        $vector = $c->consultaDeposito($_GET['id']);
+                                        if ($vector !== "Error" && $vector !== null) {
+                                            //echo '<h4>'.$vector.'</h4>';
+                                            for ($i = 0; $i < count($vector); $i++) {
+                                        ?>
                                         <tr>
                                             <td><?php echo $vector[$i][0]; ?></td>
                                             <td><?php echo $vector[$i][5]; ?></td>
@@ -259,12 +259,11 @@ $c = new consultas($conexion);
                                                     onclick="Descripcion(this)"><i class="bi bi-pencil-square"></i></a>
                                             </td>
                                             <td><canvas id="<?php echo $vector[$i][0] . $vector[$i][1] ?>" width="80"
-                                                    height="80" style="margin-top: 20px;"
-                                                    onload="prueba(this)"></canvas>
+                                                    height="80" style="margin-top: 20px;" onload="prueba()"></canvas>
                                             </td>
                                         </tr>
                                         <?php }
-                    } ?>
+                                        } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -321,8 +320,8 @@ $c = new consultas($conexion);
                                             </div>
                                             <div class="modal-body">
                                                 <?php
-                        include("ModalAgregarDeposito.php");
-                        ?>
+                                                include("ModalAgregarDeposito.php");
+                                                ?>
                                             </div>
                                             <div class="modal-footer">
                                                 <a type="submit" href="" name=""><button type="button"
@@ -360,8 +359,8 @@ $c = new consultas($conexion);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
 <script>
-function prueba(id) {
-    console.log(id.id);
+function prueba() {
+    console.log("Hola imgen");
 }
 window.onload = prueba;
 

@@ -133,4 +133,58 @@ class consultas
             return "Error";
         }
     }
+    function buscarOrden($chofer, $NroDeOrden)
+    {
+        $sql = "SELECT * FROM pedidochofer WHERE IdChofer IN(SELECT IdChofer FROM chofer WHERE NombreChofer LIKE '$chofer') OR IdPedidoChofer = '$NroDeOrden'"; //Concatenar con porcentaje cuando el campo de filtrar producto esta en uso             
+        $result = mysqli_query($this->conexion, $sql);
+        if ($result) {
+            $vector = array();
+            while ($array = mysqli_fetch_array($result)) {
+                $vector[] = $array;
+            }
+            return $vector;
+        } else {
+            return "Error";
+        }
+    }
+    function mostrarProducto($pedidoChofer)
+    {
+        $sql = "SELECT*FROM producto WHERE IdProducto IN(SELECT IdProducto FROM pedido WHERE IdPedido In(SELECT IdPedido FROM pedidoentregado WHERE IdPedidoChofer = '$pedidoChofer'))";
+        $result = mysqli_query($this->conexion, $sql);
+        if ($result) {
+            $vector = array();
+            while ($array = mysqli_fetch_array($result)) {
+                $vector[] = $array;
+            }
+            return $vector;
+        } else {
+            return "Error";
+        }
+    }
+    function cantidadRecogido($pedidoChofer)
+    {
+        $sql = "SELECT SUM(CantidadEntregado) FROM pedidoentregado WHERE IdPedidoChofer = '$pedidoChofer'";
+        $result = mysqli_query($this->conexion, $sql);
+        if ($result) {
+            $array = mysqli_fetch_array($result);
+            return $array[0];
+        } else {
+            return "Error";
+        }
+    }
+    function agregarNuevaOrden($Orden, $chofer, $fechaRecojo, $cantidad, $empleado, $fecha)
+    {
+        $sql = "INSERT INTO pedidochofer (IdPedidoChofer,IdChofer,CantidadPedido,FechaRecojo,IdEmpleado,FechaEmision) VALUES ('$Orden', '$chofer', '$cantidad', '$fechaRecojo', '$empleado', '$fecha')";
+        $result = mysqli_query($this->conexion, $sql);
+    }
+    function asignarPedido($IdAsignar, $IdPedido, $IdOrden, $cantidadSolicitada)
+    {
+        $sql = "INSERT INTO asignarpedido (IdAsignarPedido,IdPedido,IdPedidoChofer,CantidadSolicitada) VALUES ('$IdAsignar', '$IdPedido', '$IdOrden', '$cantidadSolicitada')";
+        $result = mysqli_query($this->conexion, $sql);
+        if ($result) {
+            return "Ok";
+        } else {
+            return "error";
+        }
+    }
 }
