@@ -163,7 +163,7 @@ $c = new consultas($conexion);
                             <nav class="navbar">
                                 <a href="formato.php" class="displayFirst__link" href=""><i
                                         class="fas fa-clipboard display_First__icon"></i>Formatos de Apertura</a>
-                                <a class="displayFirst__link display_First__icon" href=""><i
+                                <a href="OrdeneDeRecojo.php" class="displayFirst__link display_First__icon" href=""><i
                                         class="fas fa-box-open display_First__icon"></i>Ordenes
                                     de Recojo</a>
                                 <a class="displayFirst__link" href=""><i
@@ -217,7 +217,7 @@ $c = new consultas($conexion);
                                                 Oper.</button></a></td>
                                     <td><button type="button" class="btn btn-success" data-toggle="modal"
                                             data-target="#exampleModal"
-                                            style="margin-right: 80px; padding: auto 80px auto 80px;">
+                                            style="margin-right: 80px; padding: auto 80px auto 80px;" onclick="Nuevo()">
                                             Nuevo
                                         </button></td>
                                     <td><button class="btn btn-dark ">
@@ -227,6 +227,27 @@ $c = new consultas($conexion);
                                 </tr>
                             </tbody>
                         </table>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body-2">
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a type="submit" href="" name=""><button type="button" class="btn btn-danger"
+                                                data-dismiss="modal">Cancelar</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row displayFirst__formato-table">
                             <div class="col-12">
                                 <table class="table">
@@ -293,6 +314,14 @@ $c = new consultas($conexion);
                                 </table>
                             </div>
                             <script>
+                            function Nuevo() {
+                                $('.modal-body-2').load('ModalNuevaOrden.php', function() {
+                                    $('#exampleModal').modal({
+                                        show: true
+                                    });
+                                });
+                            }
+
                             function Descripcion(elemento) {
                                 var codigo = elemento.id;
                                 $('.modal-body-1').load('ModalEditarOrden.php?id=' + codigo, function() {
@@ -313,7 +342,7 @@ $c = new consultas($conexion);
 
                             function asignarPedido(elemento) {
                                 var codigo = elemento.id;
-                                $('.modal-body').load('ModalAsignarOrden.php?id=' + codigo, function() {
+                                $('.modal-body').load('ModalAsignarOrdenPedido.php?id=' + codigo, function() {
                                     $('#ModalAsignar').modal({
                                         show: true
                                     });
@@ -386,33 +415,6 @@ $c = new consultas($conexion);
                                 </div>
                             </div>
                             <div class="col-2">
-
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <?php
-                                                include("ModalNuevaOrden.php");
-                                                ?>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a type="submit" href="" name=""><button type="button"
-                                                        class="btn btn-danger"
-                                                        data-dismiss="modal">Cancelar</button></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <!--Modal 1-->
                                 <div class="modal fade" id="ModalAsignar" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">

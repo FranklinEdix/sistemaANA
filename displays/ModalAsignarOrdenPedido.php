@@ -30,20 +30,18 @@ function asignar(event) {
     let OrdenAsignar = document.getElementById('OrdenAsignar').value;
     let NroAsignacion = document.getElementById('NroAsignar').value;
     let Pedido = document.getElementById('PedidoAsignar').value;
-    let CantidadSolicitada = document.getElementById('CantidadSolicitadaAsignar').value;
+    let cantidadPedidoAsignado = document.getElementById('CantidadSolicitada').value;
     let objajx = creaObjetoAjax();
     const parametros = "&OrdenAsignar=" + OrdenAsignar + "&NroAsignacion=" + NroAsignacion + "&Pedido=" +
-        Pedido + "&CantidadSolicitada=" + CantidadSolicitada;
-    alert(parametros);
+        Pedido + "&cantidadPedidoAsignado=" + cantidadPedidoAsignado;
     objajx.open("POST", "asignarPedido.php", true);
     objajx.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     objajx.send(parametros);
     objajx.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(objajx.responseText);
-            const result = JSON.parse(objajx.responseText);
-            alert(result);
+
         }
+        document.location.reload("OrdeneDeRecojo.php");
     }
 }
 </script>
@@ -51,46 +49,36 @@ function asignar(event) {
 <body>
     <center>
         <h1>Asignar Pedido</h1>
-        <form action="">
-            <table class="  ">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row"><label for="">Nro Asignación: </label></th>
-                        <td><input type="text" class="" value="" name="" id="NroAsignar"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="">Pedido: </label></th>
-                        <td><input type="text" class="" value="PD01" name="" id="PedidoAsignar"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="">Orden: </label></th>
-                        <td><input type="text" class="" value="<?php echo $_GET['id']; ?>" name="" id="OrdenAsignar"
-                                disabled></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><label for="">Cantidad Solicitada: </label></th>
-                        <td><input type="numeric" class="" value="" name="" id="CantidadSolicitadaAsignar"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <!--<br>
-            <label for=""><b>Nro de pedido - Cemento Andino</b></label>
-            <br>
-            <input type="numeric" class="" value="" name="NroPedido">
-            <br>-->
-            <br>
-            <a type="submit" href="" name=""><button type="button" class="btn btn-success"
-                    onclick="asignar(event);">Guardar</button></a>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><label for="">Nro Asignación: </label></th>
+                    <td><input type="text" id="NroAsignar"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="">Pedido: </label></th>
+                    <td><input type="text" class="" value="" name="" id="PedidoAsignar"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="">Orden: </label></th>
+                    <td><input type="text" class="" value="<?php echo $_GET['id']; ?>" name="" id="OrdenAsignar"
+                            disabled></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="">Cantidad Solicitada: </label></th>
+                    <td><input type="numeric" class="" value="" name="" id="CantidadSolicitada"></td>
+                </tr>
+            </tbody>
+        </table>
 
-            <!--<a type="submit" href="" name=""><button type="button" class="btn btn-secondary">Depósito</button></a>
-    -->
-        </form>
+        <br>
+        <button type="button" class="btn btn-success" onclick="asignar(event);">Guardar</button>
     </center>
 </body>
 

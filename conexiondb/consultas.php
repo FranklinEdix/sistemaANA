@@ -187,4 +187,59 @@ class consultas
             return "error";
         }
     }
+    function consultaAsignacion($IdPedidoChofer)
+    {
+        $sql = "SELECT*FROM pedidochofer WHERE IdPedidoChofer = '$IdPedidoChofer'";
+        $result = mysqli_query($this->conexion, $sql);
+        if ($result) {
+            $row = mysqli_fetch_row($result);
+            return $row;
+        } else {
+            return "error";
+        }
+    }
+    function contarOrdenPedido($IdPedidoChofer)
+    {
+        $sql = "SELECT COUNT(*) FROM asignarpedido WHERE IdPedidoChofer = '$IdPedidoChofer'";
+        $result = mysqli_query($this->conexion, $sql);
+        if ($result) {
+            $vector = mysqli_fetch_row($result);
+            return $vector[0];
+        } else {
+            return -1;
+        }
+    }
+    function editarOrden($id, $Orden, $chofer, $fechaRecojo, $cantidad, $empleado, $fecha)
+    {
+        $sql = "UPDATE pedidochofer SET IdPedidoChofer = '$Orden', IdChofer = '$chofer', CantidadPedido = '$cantidad', FechaRecojo = '$fechaRecojo', IdEmpleado = '$empleado', FechaEmision = '$fecha' WHERE IdPedidoChofer = '$id'";
+        $result = mysqli_query($this->conexion, $sql);
+    }
+    function mostrarRecojo()
+    {
+        $sql = "SELECT IdPedidoChofer FROM pedidochofer";
+        $result = mysqli_query($this->conexion, $sql);
+        if ($result) {
+            $vector = array();
+            while ($array = mysqli_fetch_array($result)) {
+                $vector[] = $array;
+            }
+            return $vector;
+        } else {
+            return "Error";
+        }
+    }
+    function mostrarAsignacionOrden($IdPedidoChofer)
+    {
+        $sql = "SELECT*FROM asignarpedido WHERE IdPedidoChofer = '$IdPedidoChofer'";
+        $result = mysqli_query($this->conexion, $sql);
+        if ($result) {
+            $vector = array();
+            while ($array = mysqli_fetch_array($result)) {
+                $vector[] = $array;
+            }
+            return $vector;
+        } else {
+            return "Error";
+        }
+    }
 }

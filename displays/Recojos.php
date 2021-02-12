@@ -2,11 +2,12 @@
 
 session_start();
 ob_start();
-$_SESSION['idPedido'] = $_GET['id'];
 $conexion = mysqli_connect("localhost", "root", "", "teamfor");
 require "../conexiondb/consultas.php";
 $c = new consultas($conexion);
-
+$vector1 = $c->mostrarRecojo();
+$vectorAsignar = $_SESSION['vectorPedidosAsignados'];
+//$tamaño = array_count_values($vectorAsignar);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,6 +55,74 @@ $c = new consultas($conexion);
         let objajx = creaObjetoAjax();
         const parametros = "&producto=" + producto + "&FechaInferior=" + FechaInferior + "&FechaSuperior=" +
             FechaSuperior + "&NroFormato=" + NroFormato + "&NroPedido=" + NroPedido;
+        objajx.open("POST", "Controlador.php", true);
+        objajx.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        objajx.send(parametros);
+        objajx.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(objajx.responseText);
+                const result = JSON.parse(objajx.responseText);
+                console.log(result);
+            }
+        }
+    }
+
+    function ShowSelected(id) {
+        /* Para obtener el valor*/
+        var orden = $('#' + id.id).text();
+        $.ajax({
+            url: 'tablaPedidosAsignados.php',
+            type: 'POST',
+            data: {
+                Id: orden
+            },
+        }).done(function(resp) {
+            //alert(resp);
+            /*if (resp.length > 0) {
+                var info = JSON.parse(resp);
+                for (var i = 0; i < info.length; i++) {
+                    cantidad.push(info[i][1]);
+                }
+                crear_dona_grafico(idCanvas, titulo, cantidad);
+            }*/
+        });
+        document.location.reload("Recojos.php");
+    }
+
+    function verificarInput(event) {
+        //const producto = event.target.value;
+        $.ajax({
+            url: 'leerIdAsignacion.php',
+            type: 'POST',
+        }).done(function(resp) {
+            alert(resp);
+            /*if (resp.length > 0) {
+                var info = JSON.parse(resp);
+                for (var i = 0; i < info.length; i++) {
+                    cantidad.push(info[i][1]);
+                }
+                crear_dona_grafico(idCanvas, titulo, cantidad);
+            }*/
+        });
+
+        //alert(tamaño);
+        /*for (var i = 0; i < tamaño; i++) {
+            console.log(i);
+
+        }
+       
+        const fechaInferior = event.target.value;
+        const fechaPosterior = event.target.value;
+        const fechaPosterior = event.target.value;
+        const producto = event.target.value;
+        console.log(event.target.value);
+        
+        const parametros = "&producto=" + producto + "&FechaInferior=" + FechaInferior + "&FechaSuperior=" +
+            FechaSuperior + "&NroFormato=" + NroFormato + "&NroPedido=" + NroPedido;*/
+    }
+
+    function enviasAjax(parametros) {
+        let objajx = creaObjetoAjax();
         objajx.open("POST", "Controlador.php", true);
         objajx.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         objajx.send(parametros);
@@ -166,7 +235,7 @@ $c = new consultas($conexion);
                             alt="" />
                         <div class="displayFirst__navbar">
                             <nav class="navbar">
-                                <a class="displayFirst__link" href="formato.php"><i
+                                <a href="formato.php" class="displayFirst__link"><i
                                         class="fas fa-clipboard display_First__icon"></i>Formatos de Apertura</a>
                                 <a href="OrdeneDeRecojo.php" class="displayFirst__link display_First__icon"><i
                                         class="fas fa-box-open display_First__icon"></i>Ordenes
@@ -202,78 +271,61 @@ $c = new consultas($conexion);
                 <!-- Desde aqui empiezan los frames -->
                 <div class="row displayFirst__formato">
                     <div class="col-10 ml-auto mr-auto displayFirst__formato-titulo">
-                        <h4>Administracion de Depositos</h4>
+                        <h4>Administracion De Recojos</h4>
                     </div>
                     <div class="col-12 displayFirst__formato-menu">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Filtrar Producto</th>
-                                    <th>Desde:</th>
-                                    <th>Hasta:</th>
-                                    <th>Nro.Formato</th>
-                                    <th>Nro.Pedido</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input type="text" id="producto" /></td>
-                                    <td><input type="date" placeholder="" name="FechaInferior" id="FechaInferior"
-                                            onchange="Comparacion(event)" /></td>
-                                    <td><input type="date" placeholder="" name="FechaSuperior" id="FechaSuperior"
-                                            onchange="Comparacion(event)" /></td>
-                                    <td><input type="text" name="NroFormato" id="NroFormato" /></td>
-                                    <td><input type="text" name="NroPedido" id="NroPedido" /></td>
-                                    <td><a href="formato.php"><button class="btn btn-secondary" name="buscar"
-                                                onclick="handleinput(event);">Buscar Oper.</button></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+
+                        <div class="input-group mb-3">
+                            <br>
+                            <select class="form-select" aria-label="Default select example" style="padding: 10px 80% 10px 10px; position:absolute; border-radius: 15px;    background-color: #fff;
+    border: 0;
+    border: 2px solid #2ecc71;
+    color: #fff;
+    text-align: right; background:rgb(0,0,0, .8)">
+                                <option selected>Seleccione Orden</option>
+                                <?php for ($i = 0; $i < count($vector1); $i++) { ?>
+
+                                <option value="1"><?php echo $vector1[$i][0] ?></option>
+
+                                <li style="padding:auto auto auto 5000px; background: rgb(255,255,255, .2)"><a
+                                        class="dropdown-item" onclick="ShowSelected(this)"
+                                        id="<?php echo "Orden" . $i ?>"><?php echo $vector1[$i][0] ?></a>
+                                </li>
+                                <?php
+                                } ?>
+                            </select>
+                        </div>
+                        <!-- tabla -->
                         <div class="row displayFirst__formato-table">
                             <div class="col-10">
                                 <table class="table">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th scope="col">Nro</th>
-                                            <th scope="col">Fecha</th>
-                                            <th scope="col">Banco</th>
-                                            <th scope="col">Monto</th>
-                                            <th scope="col">Responsable</th>
-                                            <th scope="col">Ventanilla</th>
+                                            <th scope="col">Pedido </th>
+                                            <th scope="col">Cantidad </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $vector = $c->consultaDeposito($_GET['id']);
-                                        if ($vector !== "Error" && $vector !== null) {
-                                            //echo '<h4>'.$vector.'</h4>';
-                                            for ($i = 0; $i < count($vector); $i++) {
+                                        //echo '<h4>'.$vector.'</h4>';
+                                        if ($vectorAsignar !== "Error" and $vectorAsignar !== null) {
+                                            for ($i = 0; $i < count($vectorAsignar); $i++) {
                                         ?>
                                         <tr>
-                                            <td><?php echo $vector[$i][0]; ?></td>
-                                            <td><?php echo $vector[$i][5]; ?></td>
-                                            <td><?php echo $vector[$i][3]; ?></td>
-                                            <td><?php echo $vector[$i][2]; ?></td>
-                                            <td><?php echo $vector[$i][6]; ?></td>
-                                            <td><?php echo $vector[$i][4]; ?></td>
-                                            <td><a data-target="#myModal1" type="button" class="btn btn-primary"
-                                                    data-toggle="modal" id="<?php echo $vector[$i][0]; ?>"
-                                                    onclick="Descripcion(this)"><i class="bi bi-pencil-square"></i></a>
-                                            </td>
-                                            <td><canvas id="<?php echo $vector[$i][0] . $vector[$i][1] ?>" width="80"
-                                                    height="80" style="margin-top: 20px;" onload="prueba()"></canvas>
-                                            </td>
+                                            <td><?php echo $vectorAsignar[$i][1]; ?></td>
+                                            <td><input type="text" id="<?php echo $vectorAsignar[$i][1]; ?>"></td>
                                         </tr>
                                         <?php }
-                                        } ?>
+                                        }
+                                        $_SESSION['vectorPedidosAsignados'] = null;
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
-
                             <script>
                             function Descripcion(elemento) {
                                 var codigo = elemento.id;
-                                $('.modal-body-1').load('ModalEditarDeposito.php?id=' + codigo, function() {
+                                $('.modal-body-1').load('ModalEditar.php?id=' + codigo, function() {
                                     $('#ModalEditar').modal({
                                         show: true
                                     });
@@ -295,18 +347,41 @@ $c = new consultas($conexion);
 
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger"
-                                                data-dismiss="modal">Cancelar</button>
+                                            <a type="submit" href="" name=""><button type="button"
+                                                    class="btn btn-danger" data-dismiss="modal">Cancelar</button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Depositar-->
+                            <div class="modal fade" id="ModalDeposito" tabindex="-1"
+                                aria-labelledby="ModalDepositoLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" style="width: 100%;">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Depósito</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body-1">
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a type="submit" href="" name=""><button type="button"
+                                                    class="btn btn-success" data-dismiss="modal">Nuevo</button></a>
+                                            <a type="submit" href="" name=""><button type="button"
+                                                    class="btn btn-danger" data-dismiss="modal">Cancelar</button></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-2">
-                                <span>Compras</span>
-                                <button type="button" class="btn btn-success displayFirst__formato-boton"
+
+                                <!--<button type="button" class="btn btn-success displayFirst__formato-boton"
                                     data-toggle="modal" data-target="#exampleModal">
                                     Nuevo
-                                </button>
+                                </button>-->
 
                                 <!-- Modal -->
                                 <div class="modal fade" id="exampleModal" tabindex="-1"
@@ -322,7 +397,7 @@ $c = new consultas($conexion);
                                             </div>
                                             <div class="modal-body">
                                                 <?php
-                                                include("ModalAgregarDeposito.php");
+                                                include("ModalNuevaCompra.php");
                                                 ?>
                                             </div>
                                             <div class="modal-footer">
@@ -333,9 +408,37 @@ $c = new consultas($conexion);
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-dark displayFirst__formato-boton">
+                                <!--Modal 1-->
+                                <div id="myModal1" class="modal modal-child" data-backdrop-limit="1" tabindex="-1"
+                                    role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+                                    data-modal-parent="#myModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ...
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<button class="btn btn-dark displayFirst__formato-boton">
                                     Imprimir
-                                </button>
+                                </button>-->
+                                <a href="Recojos.php"><button class="btn btn-success displayFirst__formato-boton"
+                                        onclick="verificarInput(event)">
+                                        Enviar
+                                    </button></a>
                                 <a href="formato.php"><button class="btn btn-danger displayFirst__formato-boton">
                                         Atras
                                     </button></a>
@@ -357,72 +460,6 @@ $c = new consultas($conexion);
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
-<script>
-function prueba() {
-    console.log("Hola imgen");
-}
-window.onload = prueba;
-
-function CargarDatosGraficoBar(id) {
-    var titulo = ['Deuda', 'Cancelado'];
-    var idCanvas = id.id;
-    var cantidad = [];
-    $.ajax({
-        url: 'controladorGrafico.php',
-        type: 'POST',
-        data: {
-            Id: idCanvas
-        },
-    }).done(function(resp) {
-        alert(resp);
-        /*if (resp.length > 0) {
-            var info = JSON.parse(resp);
-            for (var i = 0; i < info.length; i++) {
-                cantidad.push(info[i][1]);
-            }
-            crear_dona_grafico(idCanvas, titulo, cantidad);
-        }*/
-    });
-
-}
-
-function crear_dona_grafico(id, titulo, cantidad) {
-    document.getElementById(id).style.backgroundColor = "rgb(0,0,0)";
-    var data = {
-        labels: titulo,
-        datasets: [{
-            data: cantidad,
-            backgroundColor: ['rgba(55, 171, 55)', 'rgba(191, 77, 69)'],
-
-        }]
-    };
-
-    var ctx = document.getElementById(id);
-    var myChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: data,
-
-        options: {
-
-        }
-    });
-}
-//-------------------------------------------------------------------------------------
-function color(cant, difusion) {
-    var exa = [];
-    var R = 3;
-    var G = 0;
-    var B = 1;
-    var auxR = Math.trunc(236 / cant);
-    var auxB = Math.trunc(49 / cant);
-    for (var i = 0; i < cant; i++) {
-        exa.push('rgba(' + R + ',' + G + ',' + B + ',' + difusion + ')');
-        var R = R + auxR;
-        var B = B + auxB;
-
-    }
-    return exa;
-}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
 </script>

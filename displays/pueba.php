@@ -1,79 +1,83 @@
-<?php
-
-session_start();
-ob_start();
-$conexion = mysqli_connect("localhost", "root", "", "teamfor");
-require "../conexiondb/consultas.php";
-$c = new consultas($conexion);
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+
+    <style>
+    .red {
+        color: white;
+        background-color: red;
+    }
+
+    .green {
+        color: white;
+        background-color: green;
+    }
+
+    .blue {
+        color: white;
+        background-color: blue;
+    }
+    </style>
 </head>
 
 <body>
-    <center>
-        <div class="container" style="display: flex;">
-            <div class="col-12">
-                </table>
-                <div class="row displayFirst__formato-table">
-                    <div class="col-12">
-                        <table class="table">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Nro</th>
-                                    <th scope="col">Fecha</th>
-                                    <th scope="col">Banco</th>
-                                    <th scope="col">Monto</th>
-                                    <th scope="col">Responsable</th>
-                                    <th scope="col">Ventanilla</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $vector = $c->consultaDeposito($_GET['id']);
-                                if ($vector !== "Error" && $vector !== null) {
-                                    //echo '<h4>'.$vector.'</h4>';
-                                    for ($i = 0; $i < count($vector); $i++) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $vector[$i][0]; ?></td>
-                                    <td><?php echo $vector[$i][5]; ?></td>
-                                    <td><?php echo $vector[$i][3]; ?></td>
-                                    <td><?php echo $vector[$i][2]; ?></td>
-                                    <td><?php echo $vector[$i][6]; ?></td>
-                                    <td><?php echo $vector[$i][4]; ?></td>
-                                    <td><a href="#myModal1" type="button" class="btn btn-primary" data-toggle="modal"><i
-                                                class="bi bi-pencil-square"></i></a></td>
-                                </tr>
-                                <?php }
-                                } ?>
-                            </tbody>
-                        </table>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 red">
+                Hello world
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 green">
+                Hello world
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-12">
+                <br /><br /><br /><br /><br /><br /><br /><br />
+
+                <div class="btn-group dropup">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Click Me!
+                    </button>
+
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="http://sonarsystems.co.uk">Button 1</a>
+                        <a class="dropdown-item" href="http://sonarsystems.co.uk">Button 2</a>
+                        <a class="dropdown-item" href="http://sonarsystems.co.uk">Button 3</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="http://sonarsystems.co.uk">Sign Out</a>
                     </div>
-                    <script>
-                    $('.modal-child').on('show.bs.modal', function() {
-                        var modalParent = $(this).attr('data-modal-parent');
-                        $(modalParent).css('opacity', 0);
-                    });
+                </div>
 
-                    $('.modal-child').on('hidden.bs.modal', function() {
-                        var modalParent = $(this).attr('data-modal-parent');
-                        $(modalParent).css('opacity', 1);
-                    });
-                    </script>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary">Click Me!</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Click Me!</span>
+                    </button>
 
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="http://sonarsystems.co.uk">Button 1</a>
+                        <a class="dropdown-item" href="http://sonarsystems.co.uk">Button 2</a>
+                        <a class="dropdown-item" href="http://sonarsystems.co.uk">Button 3</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="http://sonarsystems.co.uk">Sign Out</a>
+                    </div>
                 </div>
             </div>
-    </center>
+        </div>
+    </div>
+
+    <!-- jQuery first, then Bootstrap JS. -->
+
 </body>
 
 </html>
@@ -84,4 +88,7 @@ $c = new consultas($conexion);
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
 </script>

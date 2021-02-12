@@ -6,9 +6,15 @@ require "../conexiondb/consultas.php";
 $c = new consultas($conexion);
 ob_start();
 $nombre = $c->nombreEmpleado($_SESSION['user']);
-
+$b = false;
+$contar = $c->contarOrdenPedido($_GET['id']);
+if ($contar > 0) {
+    $b = true;
+}
+$vector = $c->consultaAsignacion($_GET['id']);
+$_SESSION['idEditarOrden'] = $_GET['id'];
 ?>
-<!--<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -40,7 +46,7 @@ function Mostrar(event) {
     const parametros = "&Orden=" + Orden + "&FechaRecojo=" + FechaRecojo + "&Chofer=" +
         Chofer +
         "&fecha=" + fecha + "&Cantidad=" + Cantidad;
-    objajx.open("POST", "AgregarNuevaOrden.php", true);
+    objajx.open("POST", "editarOrden.php", true);
     objajx.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     objajx.send(parametros);
     objajx.onreadystatechange = function() {
@@ -68,20 +74,33 @@ function Mostrar(event) {
                 <tbody>
                     <tr>
                         <th scope="row"><label for="">Orden: </label></th>
-                        <td><input type="text" class="" value="" name="Orden" id="Orden"></td>
+                        <td><input type="text" class="" value="<?php echo $vector[0]; ?>" name="Orden" id="Orden"
+                                <?php if ($b) {
+                                                                                                                        echo "disabled";
+                                                                                                                    } ?>></td>
                     </tr>
                     <tr>
                         <th scope="row"><label for="">Chofer: </label></th>
-                        <td><input type="text" class="" value="" name="Chofer" id="Chofer"></td>
+                        <td><input type="text" class="" value="<?php echo $vector[1]; ?>" name="Chofer" id="Chofer"
+                                <?php if ($b) {
+                                                                                                                        echo "disabled";
+                                                                                                                    } ?>></td>
                     </tr>
                     <tr>
                         <th scope="row"><label for="">FechaRecojo: </label></th>
-                        <td><input type="date" class="" value="" name="FechaRecojo" id="FechaRecojo"
-                                style="padding-left: 12px;"></td>
+                        <td><input type="date" class="" value="<?php echo $vector[3]; ?>" name="FechaRecojo"
+                                id="FechaRecojo" style="padding-left: 12px;"
+                                <?php if ($b) {
+                                                                                                                                                                echo "disabled";
+                                                                                                                                                            } ?>>
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row"><label for="">Cantidad: </label></th>
-                        <td><input type="numeric" class="" value="" name="Fecha" id="Cantidad"></td>
+                        <td><input type="numeric" class="" value="<?php echo $vector[2]; ?>" name="Fecha" id="Cantidad"
+                                <?php if ($b) {
+                                                                                                                            echo "disabled";
+                                                                                                                        } ?>></td>
                     </tr>
                     <tr>
                         <th scope="row"><label for="">Responsable: </label></th>
@@ -102,14 +121,14 @@ function Mostrar(event) {
             <br>
             <input type="numeric" class="" value="" name="NroPedido">
             <br>-->
-<br>
-<a type="submit" href="" name=""><button type="button" class="btn btn-success"
-        onclick="Mostrar(event);">Guardar</button></a>
+            <br>
+            <a type="submit" href="" name=""><button type="button" class="btn btn-success"
+                    onclick="Mostrar(event);">Guardar</button></a>
 
-<!--<a type="submit" href="" name=""><button type="button" class="btn btn-secondary">Depósito</button></a>
+            <!--<a type="submit" href="" name=""><button type="button" class="btn btn-secondary">Depósito</button></a>
     -->
-</form>
-</center>
+        </form>
+    </center>
 </body>
 
 </html>

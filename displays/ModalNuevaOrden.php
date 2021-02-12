@@ -1,6 +1,10 @@
 <?php
 
+session_start();
 ob_start();
+$conexion = mysqli_connect("localhost", "root", "", "teamfor");
+require "../conexiondb/consultas.php";
+$c = new consultas($conexion);
 $nombre = $c->nombreEmpleado($_SESSION['user']);
 
 ?>
@@ -45,7 +49,7 @@ function Mostrar(event) {
             const result = JSON.parse(objajx.responseText);
             console.log(result);
         }
-        document.location.reload("ModalNuevaOrden.php");
+        //document.location.reload("OrdeneDeRecojo.php");
     }
 }
 </script>
@@ -93,17 +97,9 @@ function Mostrar(event) {
                     </tr>
                 </tbody>
             </table>
-            <!--<br>
-            <label for=""><b>Nro de pedido - Cemento Andino</b></label>
-            <br>
-            <input type="numeric" class="" value="" name="NroPedido">
-            <br>-->
             <br>
             <a type="submit" href="" name=""><button type="button" class="btn btn-success"
                     onclick="Mostrar(event);">Guardar</button></a>
-
-            <!--<a type="submit" href="" name=""><button type="button" class="btn btn-secondary">Depósito</button></a>
-    -->
         </form>
     </center>
 </body>

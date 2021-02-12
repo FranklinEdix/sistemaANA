@@ -165,9 +165,9 @@ $c = new consultas($conexion);
                             alt="" />
                         <div class="displayFirst__navbar">
                             <nav class="navbar">
-                                <a class="displayFirst__link" href=""><i
+                                <a href="formato.php" class="displayFirst__link"><i
                                         class="fas fa-clipboard display_First__icon"></i>Formatos de Apertura</a>
-                                <a href="OrdeneDeRecojo.php" class="displayFirst__link display_First__icon" href=""><i
+                                <a href="OrdeneDeRecojo.php" class="displayFirst__link display_First__icon"><i
                                         class="fas fa-box-open display_First__icon"></i>Ordenes
                                     de Recojo</a>
                                 <a class="displayFirst__link" href=""><i
@@ -185,11 +185,13 @@ $c = new consultas($conexion);
                 <div class="row displayFirst__area-header">
                     <div class="col-12"></div>
                     <div class="col-4">
-                        <span class="displayFirst__area-span">Dashboard</span>
+                        <span class="displayFirst__area-span"><a href="../login.html"><button class="btn btn-danger ">
+                                    Salir <i class="bi bi-box-arrow-right"></i>
+                                </button></a></span>
                     </div>
                     <div class="col-auto ml-auto">
                         <span class="displayFirst__area-span"><?php ob_start();
-                                                  echo $c->nombreEmpleado($_SESSION['user']); ?></span>
+                                                                echo $c->nombreEmpleado($_SESSION['user']); ?></span>
                     </div>
                     <div class="col-auto">
                         <img class="displayFirst__area-usuario"
@@ -242,19 +244,19 @@ $c = new consultas($conexion);
                                     </thead>
                                     <tbody>
                                         <?php
-                    $vector = $_SESSION['vector'];
-                    if (!is_null($vector)) {
-                      if (count($vector) == 0) {
-                        $vector = $c->formatoAperturaTotal();
-                        //echo '<h4>'.$vector.'</h4>';
-                      }
-                    } else {
-                      $vector = $c->formatoAperturaTotal();
-                    }
+                                        $vector = $_SESSION['vector'];
+                                        if (!is_null($vector)) {
+                                            if (count($vector) == 0) {
+                                                $vector = $c->formatoAperturaTotal();
+                                                //echo '<h4>'.$vector.'</h4>';
+                                            }
+                                        } else {
+                                            $vector = $c->formatoAperturaTotal();
+                                        }
 
-                    //echo '<h4>'.$vector.'</h4>';
-                    for ($i = 0; $i < count($vector); $i++) {
-                    ?>
+                                        //echo '<h4>'.$vector.'</h4>';
+                                        for ($i = 0; $i < count($vector); $i++) {
+                                        ?>
                                         <tr>
                                             <td><?php echo $vector[$i][6]; ?></td>
                                             <td><?php echo $vector[$i][9]; ?></td>
@@ -265,14 +267,15 @@ $c = new consultas($conexion);
                                             <td><?php echo $vector[$i][3]; ?></td>
                                             <td><a type="button" class="btn btn-primary" onclick="Descripcion(this)"
                                                     id="<?php echo $vector[$i][0]; ?>" data-toggle="modal"
-                                                    data-target="#ModalEditar1"><i class="bi bi-pencil-square"></i></a>
+                                                    data-target="#ModalEditar1"><i class="bi bi-pencil-square"
+                                                        style="color: #f2f2f2;"></i></a>
                                             </td>
                                             <td><a href="ModalDeposito.php?id=<?php echo $vector[$i][0]; ?>"
                                                     type="button" class="btn btn-secondary" onclick="Deposito(this)"><i
                                                         class="bi bi-cash"></i></a></td>
                                         </tr>
                                         <?php }
-                    $_SESSION['vector'] = null; ?>
+                                        $_SESSION['vector'] = null; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -351,8 +354,8 @@ $c = new consultas($conexion);
                                             </div>
                                             <div class="modal-body">
                                                 <?php
-                        include("ModalNuevaCompra.php");
-                        ?>
+                                                include("ModalNuevaCompra.php");
+                                                ?>
                                             </div>
                                             <div class="modal-footer">
                                                 <a type="submit" href="" name=""><button type="button"
@@ -389,12 +392,8 @@ $c = new consultas($conexion);
                                 <button class="btn btn-dark displayFirst__formato-boton">
                                     Imprimir
                                 </button>
-                                <button class="btn btn-danger displayFirst__formato-boton">
-                                    Recojos
-                                </button>
-                                <a href="../login.html"><button style="position: absolute; bottom: 0px; right: 0px"
-                                        class="btn btn-danger displayFirst__formato-boton">
-                                        Salir
+                                <a href="Recojos.php"><button class="btn btn-danger displayFirst__formato-boton">
+                                        Recojos
                                     </button></a>
                             </div>
                         </div>
